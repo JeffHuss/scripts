@@ -21,8 +21,10 @@
 #          NOTE: Make sure to change the path to the script if it isn't in ~/Documents!
 #   6) Navigate to the folder containing the page you would like to build and run the command "jbuild"
 #          NOTE: Currently this can be used to build documentation-website and project-website. You may still
-#                need to run "bundle install" and add the webrick gem to the Gemfile as per the manual method.
-#                Checking for the webrick gem in Gemfile would be easy to add to this script if folks want it.
+#                need to run "bundle install" if you haven't done so already. This requires manually adding a
+#                line to the relevant Gemfile, (gem "webrick"), running "bundle install" from that directory,
+#                and then proceeding with this script. When the script completes it will clean up any running
+#                processes associated with the port you defined.
 
 # Define a default port value
 default_port=4000
