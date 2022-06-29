@@ -30,6 +30,17 @@ default_port=4000
 # Initialize cport value
 cport=($default_port)
 
+# Add gem "webrick" to Gemfile
+add_webrick()   {
+    echo 'gem "webrick"' >> Gemfile
+}
+
+# Remove gem "webrick" from Gemfile
+remove_webrick()    {
+    # Delete the line from the file
+    sed -iE '/gem "webrick"/d' Gemfile
+}
+
 # Help message
 help_text() {
     echo ""
@@ -103,8 +114,12 @@ if [ "$#" -eq 0 ]; then
             gemfile_not_found
             exit 2
         fi
+        # Since we know the Gemfile exists, let's make sure to add the webrick gem
+        add_webrick
         # The default port is open AND bundle can find the Gemfile, so build it using the specified port
         jekyll_build
+        # And since we don't want to accidentally commit anything with the webrick gem included, delete it
+        remove_webrick
         exit 1
     fi
 fi
@@ -135,8 +150,12 @@ if [ "$#" -eq 1 ]; then
             gemfile_not_found
             exit 2
         fi
+        # Since we know the Gemfile exists, let's make sure to add the webrick gem
+        add_webrick
         # The default port is open AND bundle can find the Gemfile, so build it using the specified port
         jekyll_build
+        # And since we don't want to accidentally commit anything with the webrick gem included, delete it
+        remove_webrick
         exit 1
     fi
 fi
