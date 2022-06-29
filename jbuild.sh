@@ -83,6 +83,13 @@ jekyll_build()  {
     bundle exec jekyll serve --host localhost --port $cport --incremental --livereload --open-url
 }
 
+# Clean up ports after the script is run to prevent issues
+port_clean_up() {
+    for i in $(lsof -i:$cport -F 'p' | grep ^p | sed 's/p//g'); do
+        kill $i
+        done
+}
+
 # If the user passes "-h" or "--help" then display the help text
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
    help_text
@@ -121,6 +128,8 @@ if [ "$#" -eq 0 ]; then
         jekyll_build
         # And since we don't want to accidentally commit anything with the webrick gem included, delete it
         remove_webrick
+        # Clean up the port so the script can be run again
+        port_clean_up
         exit 1
     fi
 fi
@@ -157,6 +166,8 @@ if [ "$#" -eq 1 ]; then
         jekyll_build
         # And since we don't want to accidentally commit anything with the webrick gem included, delete it
         remove_webrick
+        # Clean up the port so the script can be run again
+        port_clean_up
         exit 1
     fi
 fi
