@@ -38,7 +38,8 @@ add_webrick()   {
 # Remove gem "webrick" from Gemfile
 remove_webrick()    {
     # Delete the line from the file
-    sed -iE '/gem "webrick"/d' Gemfile
+    sed -i '' '/gem "webrick"/d' Gemfile
+    sed -i '' '/^.*webrick/d' Gemfile.lock
 }
 
 # Help message
