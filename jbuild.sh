@@ -34,7 +34,7 @@ cport=($default_port)
 
 # Add gem "webrick" to Gemfile
 add_webrick()   {
-    echo 'gem "webrick"' >> Gemfile
+    echo 'gem "webrick"' | tee -a Gemfile >/dev/null
 }
 
 # Remove gem "webrick" from Gemfile
