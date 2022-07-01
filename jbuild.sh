@@ -40,7 +40,6 @@ backup_gemfile()    {
 # Restore Gemfile
 restore_gemfile()   {
     mv Gemfile.bak Gemfile
-    rm Gemfile.bak
 }
 
 # Add gem "webrick" to Gemfile
