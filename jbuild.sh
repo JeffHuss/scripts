@@ -32,15 +32,24 @@ default_port=4000
 # Initialize cport value
 cport=($default_port)
 
-# Add gem "webrick" to Gemfile
-add_webrick()   {
-    echo 'gem "webrick"' | tee -a Gemfile >/dev/null
+# Backup Gemfile
+backup_gemfile()    {
+    cp Gemfile Gemfile.bak
 }
 
-# Remove gem "webrick" from Gemfile
+# Restore Gemfile
+restore_gemfile()   {
+    mv Gemfile.bak Gemfile
+    rm Gemfile.bak
+}
+
+# Add gem "webrick" to Gemfile
+add_webrick()   {
+    echo -e "\ngem \"webrick\"" >> Gemfile
+}
+
+# Remove gem "webrick" from Gemfile.lock only since Gemfile will be overwritten
 remove_webrick()    {
-    # Delete the line from the file
-    sed -i '' '/gem "webrick"/d' Gemfile
     sed -i '' '/^.*webrick/d' Gemfile.lock
 }
 
@@ -124,12 +133,16 @@ if [ "$#" -eq 0 ]; then
             gemfile_not_found
             exit 2
         fi
+        # Backup the Gemfile
+        backup_gemfile
         # Since we know the Gemfile exists, let's make sure to add the webrick gem
         add_webrick
         # The default port is open AND bundle can find the Gemfile, so build it using the specified port
         jekyll_build
         # And since we don't want to accidentally commit anything with the webrick gem included, delete it
         remove_webrick
+        # Restore Gemfile to original state
+        restore_gemfile
         # Clean up the port so the script can be run again
         port_clean_up
         exit 1
@@ -162,12 +175,16 @@ if [ "$#" -eq 1 ]; then
             gemfile_not_found
             exit 2
         fi
+        # Backup the Gemfile
+        backup_gemfile
         # Since we know the Gemfile exists, let's make sure to add the webrick gem
         add_webrick
         # The default port is open AND bundle can find the Gemfile, so build it using the specified port
         jekyll_build
         # And since we don't want to accidentally commit anything with the webrick gem included, delete it
         remove_webrick
+        # Restore Gemfile to original state
+        restore_gemfile
         # Clean up the port so the script can be run again
         port_clean_up
         exit 1
