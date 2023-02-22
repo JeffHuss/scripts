@@ -35,7 +35,7 @@ create_certs()	{
 	openssl pkcs8 -inform PEM -outform PEM -in os-dashboards-01-key-temp.pem -topk8 -nocrypt -v1 PBE-SHA1-3DES -out os-dashboards-01-key.pem
 	openssl req -new -key os-dashboards-01-key.pem -subj "/C=US/ST=OREGON/L=PORTLAND/O=OPENSEARCH/OU=DOCS/CN=os-dashboards-01" -out os-dashboards-01.csr
 	echo 'subjectAltName=DNS:os-dashboards-01' | tee -a os-dashboards-01.ext
-	echo 'subjectAltName=IP:172.20.0.15' | tee -a os-dashboards-01.ext
+	echo 'subjectAltName=IP:172.20.0.10' | tee -a os-dashboards-01.ext
 	openssl x509 -req -in os-dashboards-01.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out os-dashboards-01.pem -days 730 -extfile os-dashboards-01.ext
 }
 
@@ -43,6 +43,7 @@ create_certs()	{
 clean_up_certs()	{
 	rm *temp.pem *csr *ext
 }
+
 
 # Write config files
 write_os_configs ()	{
