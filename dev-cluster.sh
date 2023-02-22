@@ -35,7 +35,7 @@ create_certs()	{
 	openssl pkcs8 -inform PEM -outform PEM -in os-dashboards-01-key-temp.pem -topk8 -nocrypt -v1 PBE-SHA1-3DES -out os-dashboards-01-key.pem
 	openssl req -new -key os-dashboards-01-key.pem -subj "/C=US/ST=OREGON/L=PORTLAND/O=OPENSEARCH/OU=DOCS/CN=os-dashboards-01" -out os-dashboards-01.csr
 	echo 'subjectAltName=DNS:os-dashboards-01' | tee -a os-dashboards-01.ext
-	echo 'subjectAltName=IP:172.20.0.101' | tee -a os-dashboards-01.ext
+	echo 'subjectAltName=IP:172.20.0.15' | tee -a os-dashboards-01.ext
 	openssl x509 -req -in os-dashboards-01.csr -CA root-ca.pem -CAkey root-ca-key.pem -CAcreateserial -sha256 -out os-dashboards-01.pem -days 730 -extfile os-dashboards-01.ext
 }
 
@@ -55,7 +55,7 @@ write_os_configs ()	{
 		cluster.initial_master_nodes: ["os-node-01","os-node-02","os-node-03","os-node-04"]
 		discovery.seed_hosts: ["os-node-01","os-node-02","os-node-03","os-node-04"]
 		bootstrap.memory_lock: true
-		path.repo: /mnt/snapshots
+		path.repo: /usr/share/opensearch/snapshots
 
 		# Bind to all interfaces because we don't know what IP address Docker will assign to us.
 		network.host: 0.0.0.0
@@ -106,6 +106,16 @@ write_osd_configs ()	{
 	EOF
 }
 
+# Initialize the snapshot repo
+# This solves a problem I was running into where a mounted volume
+# was owned by root:root within the container. Rather than modifying
+# the Dockerfile and building my own images, I'm just using a solution
+# I found on stackoverflow: https://serverfault.com/a/984599
+snapshot_repo_init()	{
+	docker run --rm -v repo-01:/usr/share/opensearch/snapshots busybox \
+  		/bin/sh -c 'chown -R 1000:1000 /usr/share/opensearch/snapshots'
+}
+
 # Launch each node
 launch_nodes()	{
 	for ((i=1; i <= $node_count; i++)); do
@@ -114,7 +124,7 @@ launch_nodes()	{
 			-e "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" \
 			--ulimit nofile=65536:65536 --ulimit memlock=-1:-1 \
 			-v data-0${i}:/usr/share/opensearch/data \
-		  	-v repo-01:/mnt/snapshots \
+		  	-v repo-01:/usr/share/opensearch/snapshots \
 		  	-v /home/ec2-user/backups/1.3/deploy/opensearch-0${i}.yml:/usr/share/opensearch/config/opensearch.yml \
 		  	-v /home/ec2-user/backups/1.3/deploy/root-ca.pem:/usr/share/opensearch/config/root-ca.pem \
 		  	-v /home/ec2-user/backups/1.3/deploy/admin.pem:/usr/share/opensearch/config/admin.pem \
@@ -136,7 +146,7 @@ launch_node_dashboards()	{
 		-v /home/ec2-user/backups/1.3/deploy/os-dashboards-01.pem:/usr/share/opensearch-dashboards/config/os-dashboards-01.pem \
 		-v /home/ec2-user/backups/1.3/deploy/os-dashboards-01-key.pem:/usr/share/opensearch-dashboards/config/os-dashboards-01-key.pem \
 		--network opensearch-dev-net \
-		--ip 172.20.0.101 \
+		--ip 172.20.0.10 \
 		--name os-dashboards-01 \
 		opensearchproject/opensearch-dashboards:1.3.7
 }
@@ -146,5 +156,6 @@ create_certs
 clean_up_certs
 write_os_configs
 write_osd_configs
+snapshot_repo_init
 launch_nodes
 launch_node_dashboards
