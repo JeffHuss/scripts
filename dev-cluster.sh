@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# This value determins how many worker nodes are created
+# This value determines how many worker nodes are created
 node_count=4
 
 # Create Docker network if it doesn't exist
