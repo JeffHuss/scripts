@@ -10,7 +10,7 @@ if [ -z "$1" ]; then
 fi
 
 PROJECT_NAME=$1
-TEMPLATE_DIR=~/templates  # Change this if needed
+TEMPLATE_DIR=~/github_repos/scripts/templates  # Change this if needed
 
 # Create project directory
 mkdir "python_labs/$PROJECT_NAME" && cd "python_labs/$PROJECT_NAME"
