@@ -1,1 +1,2 @@
-python_labs/venv/
+# Ignore any venv directories - users should create their own venv and can use setup.sh + requirements.txt
+**/venv/
