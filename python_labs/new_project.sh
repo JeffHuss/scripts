@@ -10,10 +10,15 @@ if [ -z "$1" ]; then
 fi
 
 PROJECT_NAME=$1
-TEMPLATE_DIR=~/github_repos/scripts/templates  # Change this if needed
+PROJECT_DIR=~/github_repos/scripts/python_labs  # Ensure new projects go here
+TEMPLATE_DIR=~/github_repos/scripts/templates  # Path to setup.sh template
 
-# Create project directory
-mkdir "python_labs/$PROJECT_NAME" && cd "python_labs/$PROJECT_NAME"
+# Ensure the target directory exists
+mkdir -p "$PROJECT_DIR"
+
+# Create the new project inside the correct directory
+mkdir "$PROJECT_DIR/$PROJECT_NAME"
+cd "$PROJECT_DIR/$PROJECT_NAME"
 
 # Copy setup.sh
 cp "$TEMPLATE_DIR/setup.sh" .
@@ -21,4 +26,4 @@ cp "$TEMPLATE_DIR/setup.sh" .
 # Create an empty requirements.txt
 touch requirements.txt
 
-echo "✅ Project '$PROJECT_NAME' created with setup.sh and requirements.txt."
+echo "✅ Project '$PROJECT_NAME' created in $PROJECT_DIR/$PROJECT_NAME with setup.sh and requirements.txt."
