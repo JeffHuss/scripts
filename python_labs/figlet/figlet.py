@@ -31,6 +31,9 @@ def main():
             else:
                 # If the font doesn't exist, print error and close
                 sys.exit("Invalid usage")
+        else:
+            # If the option isn't correct, sys.exit
+            sys.exit("Invalid usage")
     # If no font was provided using the expected format, choose a random one
     else:
         # Pick a random font by using random.choice(fonts)
