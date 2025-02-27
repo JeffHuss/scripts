@@ -11,8 +11,11 @@ def main():
 
     # Loop until 
     while True:
+        # Encapsulated in a try block to catch the Ctrl+D to exit
         try:
+            # As the user enters each name, append to the list of names
             names.append(input("Name: "))
+        # Catch Ctrl+D to print and exit. \n 
         except EOFError:
             print(f"\nAdeiu, adeiu, to {p.join(names)}")
             break
