@@ -7,8 +7,8 @@
 - `legacy_scripts/`
   - An incomplete collection of scripts I've used while working as a support engineer and tech writer ("legacy_scripts") folder.
 
-- `archived_assignments/`
-  - Collection of various scripts I've written while working through online coursework. Much of it is from [CS50’s Introduction to Programming with Python](https://cs50.harvard.edu/python/2022/)
+- `python_labs/`
+  - Collection of various Python scripts I've written while working through online coursework. Much of it is from [CS50’s Introduction to Programming with Python](https://cs50.harvard.edu/python/2022/)
 
 - `templates/`
   - This is where I store any templates that are used in other places. Organization is....emergent :)
