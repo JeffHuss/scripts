@@ -10,7 +10,7 @@ if [ -z "$1" ]; then
 fi
 
 PROJECT_NAME=$1
-PROJECT_DIR=~/github_repos/scripts/python_labs  # Ensure new projects go here
+PROJECT_DIR=~/github_repos/scripts/python_labs/current_assignments  # Ensure new projects go here
 TEMPLATE_DIR=~/github_repos/scripts/templates  # Path to setup.sh template
 
 # Ensure the target directory exists
