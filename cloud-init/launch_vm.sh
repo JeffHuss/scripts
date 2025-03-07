@@ -2,6 +2,15 @@
 # Usage: ./launch_vm.sh vm_name memory_mb disk_size_gb
 # Example: ./launch_vm.sh vm1 2048 20
 
+# Check for required environment variable
+if [ -z "${SSH_PUBLIC_KEY}" ]; then
+    echo "Error: SSH_PUBLIC_KEY environment variable is not set."
+    echo "Please set this variable with your SSH public key. For example:"
+    echo "export SSH_PUBLIC_KEY=\"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDwBzqbYYLYQNtmvYJVgAnMhGWp0gBPlxrZr98Wytwbs your@email.com\""
+    echo "You can add this to your .bashrc or .zshrc to make it permanent."
+    exit 1
+fi
+
 if [ $# -lt 3 ]; then
     echo "Usage: $0 vm_name memory_mb disk_size_gb"
     echo "Example: $0 vm1 2048 20"
@@ -27,7 +36,7 @@ fqdn: ${VM_NAME}.local
 users:
   - name: ubuntu
     ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDwBzqbYYLYQNtmvYJVgAnMhGWp0gBPlxrZr98Wytwbs jeff.huss@comcast.net
+      - ${SSH_PUBLIC_KEY}
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo
     shell: /bin/bash
@@ -175,7 +184,7 @@ echo "  virt-viewer ${VM_NAME}"
 # Cleanup temporary files
 echo ""
 echo "Cleaning up temporary files..."
-rm cloud-init-${VM_NAME}.iso
+rm -f cloud-init-${VM_NAME}.iso
 echo "Note: Keeping cloud-init-${VM_NAME}.yml for reference and ${VM_NAME}.qcow2 which is needed for the VM to run."
 echo "If you want to remove these files later, use:"
 echo "  rm cloud-init-${VM_NAME}.yml # Remove configuration file"

@@ -20,12 +20,38 @@ Before using this script, ensure you have the following installed on your Ubuntu
 - cloud-utils
 - A base Ubuntu cloud image (jammy-server-cloudimg-amd64.img)
 - A configured network bridge (br0)
+- SSH public key set as an environment variable
 
 You can install most requirements with:
 
 ```bash
 sudo apt update
 sudo apt install qemu-kvm libvirt-daemon-system virtinst cloud-utils bridge-utils
+```
+
+### Setting Up Your SSH Public Key
+
+The script requires your SSH public key to be available as an environment variable. Set it up with:
+
+```bash
+export SSH_PUBLIC_KEY="your-ssh-public-key-here"
+```
+
+For example:
+```bash
+export SSH_PUBLIC_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX your@email.com"
+```
+
+To make this permanent, add the export command to your `~/.bashrc` or `~/.zshrc` file:
+
+```bash
+echo 'export SSH_PUBLIC_KEY="your-ssh-public-key-here"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+If you don't have an SSH key yet, generate one with:
+```bash
+ssh-keygen -t ed25519 -C "your@email.com"
 ```
 
 ## Basic Usage
