@@ -34,7 +34,7 @@
   - Run this to create a venv in the project directory.
   - If requirements.txt contains any dependencies, it will install them with `pip`
 
-**Note**: I use a quick bash function to clean up the dir once I'm done working so that it's packaged for reuse in the future without having to remember anything about the configuration. That script looks like this:
+**Note**: I use a quick bash function to clean up Python directories once I'm done working. That script looks like this:
 
 ```bash
 pclean() {
