@@ -1,2 +1,28 @@
-# Ignore any venv directories - users should create their own venv and can use setup.sh + requirements.txt
+# VM image files - these are large binary files
+**.qcow2
+**.img
+**.iso
+
+# Cloud-init configuration files - may contain sensitive information
+cloud-init-*.yml
+
+# Python virtual environments
 **/venv/
+**/__pycache__/
+**.pyc
+**.pyo
+**.pyd
+
+# Temporary files
+**/.DS_Store
+**/._.DS_Store
+**/*.swp
+**/*.swo
+**/Thumbs.db
+
+# Log files that might be generated
+**/*.log
+
+# Potential environment-specific files
+.env
+.envrc
