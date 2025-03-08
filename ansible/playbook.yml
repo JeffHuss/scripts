@@ -1,0 +1,17 @@
+---
+- name: Copy_module_test
+  hosts: localhost
+  tasks:
+    - name: Copy a file
+      ansible.builtin.copy:
+        dest: hello
+        content: world
+        mode: "0600"
+    - name: Display the date
+      ansible.builtin.command: date
+      register: date_output
+      changed_when: date_output != 0
+    - name: Install or remove cowsay
+      ansible.builtin.pip:
+        name: cowsay
+        state: absent

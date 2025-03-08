@@ -26,3 +26,11 @@ cloud-init-*.yml
 # Potential environment-specific files
 .env
 .envrc
+
+# Ignore all .ansible directories anywhere in the repo
+**/.ansible/
+
+# Other common Ansible-generated files
+*.retry
+ansible_collections/
+.ansible_collections/
