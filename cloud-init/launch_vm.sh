@@ -180,12 +180,3 @@ echo "The password is: ubuntuisawesome"
 echo ""
 echo "To access the VM console use:"
 echo "  virt-viewer ${VM_NAME}"
-
-# Cleanup temporary files
-echo ""
-echo "Cleaning up temporary files..."
-rm -f cloud-init-${VM_NAME}.iso
-echo "Note: Keeping cloud-init-${VM_NAME}.yml for reference and ${VM_NAME}.qcow2 which is needed for the VM to run."
-echo "If you want to remove these files later, use:"
-echo "  rm cloud-init-${VM_NAME}.yml # Remove configuration file"
-echo "  # Don't remove ${VM_NAME}.qcow2 while the VM is running"

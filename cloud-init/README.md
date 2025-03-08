@@ -76,7 +76,6 @@ The script performs the following operations:
 3. Creates a cloud-init ISO file
 4. Copies and resizes the base disk image
 5. Launches the VM using libvirt
-6. Performs cleanup of temporary files
 
 ## Detailed Explanation
 
@@ -268,27 +267,6 @@ Notable options:
 - `--network bridge=br0,model=virtio`: Uses virtio networking for better performance and connects to the bridge network
 - `--noautoconsole`: Prevents the console from automatically opening
 - `--import`: Tells virt-install that we're using an existing disk image
-
-### File Cleanup
-
-```bash
-# Cleanup temporary files
-echo ""
-echo "Cleaning up temporary files..."
-rm cloud-init-${VM_NAME}.iso
-echo "Note: Keeping cloud-init-${VM_NAME}.yml for reference and ${VM_NAME}.qcow2 which is needed for the VM to run."
-```
-
-The script automatically cleans up some temporary files after VM creation:
-
-1. **Removed automatically**:
-   - `cloud-init-${VM_NAME}.iso`: The cloud-init ISO file is removed as it's no longer needed after VM boot
-
-2. **Kept intentionally**:
-   - `cloud-init-${VM_NAME}.yml`: The configuration file is kept for reference and debugging purposes. It contains all the settings used to create this specific VM.
-   - `${VM_NAME}.qcow2`: The VM disk image is essential for the VM to continue running and must not be deleted while the VM is active.
-
-This selective cleanup approach balances disk space conservation with maintaining necessary files for VM operation and troubleshooting. The script also provides guidance on how to manually remove the remaining files when they're no longer needed.
 
 ## Why This Approach Works
 

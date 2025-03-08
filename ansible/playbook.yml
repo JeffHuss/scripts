@@ -15,3 +15,9 @@
       ansible.builtin.pip:
         name: cowsay
         state: absent
+- name: Install_nginx
+  hosts: all
+  tasks:
+    - name: Add nginx
+    - ansible.builtin.apt:
+        name: nginx
