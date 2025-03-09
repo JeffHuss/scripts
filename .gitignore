@@ -34,3 +34,5 @@ cloud-init-*.yml
 *.retry
 ansible_collections/
 .ansible_collections/
+**/facts_cache/
+**/tmp/
