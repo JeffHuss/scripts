@@ -1,0 +1,26 @@
+---
+- name: Install all security, critical, and rollup updates without a scheduled task
+  hosts: windows
+  become: true
+  become_method: runas
+  become_user: SYSTEM
+  
+  tasks:
+    - name: Install all security, critical, and rollup updates
+      ansible.windows.win_updates:
+        category_names:
+          - SecurityUpdates
+          - CriticalUpdates
+          - UpdateRollups
+      register: update_result
+    
+    - name: Display update status
+      ansible.builtin.debug:
+        var: update_result
+      
+    - name: Reboot if required
+      ansible.windows.win_reboot:
+        msg: "Rebooting due to Windows updates requiring reboot"
+        pre_reboot_delay: 15
+        post_reboot_delay: 60
+      when: update_result.reboot_required
