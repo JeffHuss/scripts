@@ -1,6 +1,6 @@
 ---
 - name: Upgrade latest packages on Ubuntu hosts
-  hosts: all
+  hosts: ubuntu
   become: yes
   tasks:
   - name: Update all packages to their latest versions
@@ -11,7 +11,7 @@
     - upgrade
 
 - name: Restart Ubuntu hosts
-  hosts: all
+  hosts: ubuntu
   become: yes
   tasks:
   - name: Restart the system
