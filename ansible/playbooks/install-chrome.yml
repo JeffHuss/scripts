@@ -1,0 +1,33 @@
+---
+# Playbook: install-chrome.yml
+# Description: Installs Google Chrome on Windows hosts
+# Usage: ansible-playbook install-chrome.yml
+
+- name: Install Google Chrome on Windows
+  hosts: windows
+  gather_facts: false
+  tasks:
+    - name: Create temporary directory for Chrome installer
+      win_file:
+        path: C:\temp\chrome
+        state: directory
+
+    - name: Download Chrome installer
+      win_get_url:
+        url: https://dl.google.com/chrome/install/latest/chrome_installer.exe
+        dest: C:\temp\chrome\chrome_installer.exe
+
+    - name: Install Chrome silently
+      win_command: C:\temp\chrome\chrome_installer.exe /silent /install
+      register: chrome_install
+      failed_when: chrome_install.rc not in [0, 3010]
+      # Note: 3010 exit code means success but reboot required
+      
+    - name: Display installation results
+      debug:
+        msg: "Chrome installation {{ 'completed successfully' if chrome_install.rc == 0 else 'completed, reboot required' if chrome_install.rc == 3010 else 'may have failed' }}"
+      
+    - name: Cleanup temporary files
+      win_file:
+        path: C:\temp\chrome
+        state: absent

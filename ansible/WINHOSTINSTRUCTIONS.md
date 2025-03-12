@@ -71,7 +71,7 @@ Set up the authorized_keys file with your public key:
 ```powershell
 # Create the administrators_authorized_keys file with your public key
 # Replace the public key below with yours
-$publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDwBzqbYYLYQNtmvYJVgAnMhGWp0gBPlxrZr98Wytwbs your@email.com"
+$publicKey = "YOUR_PUBLIC_KEY"
 Set-Content -Path "C:\ProgramData\ssh\administrators_authorized_keys" -Value $publicKey
 
 # Set required permissions on the file - these permissions are critical for SSH security
