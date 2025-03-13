@@ -36,3 +36,6 @@ ansible_collections/
 .ansible_collections/
 **/facts_cache/
 **/tmp/
+
+# Ignore installed Ansible roles but keep custom roles
+ansible/roles/geerlingguy.*
