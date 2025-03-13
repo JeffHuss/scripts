@@ -39,3 +39,7 @@ ansible_collections/
 
 # Ignore installed Ansible roles but keep custom roles
 ansible/roles/geerlingguy.*
+
+# Ignore credentials and tokens
+galaxy_token
+**/galaxy_token
