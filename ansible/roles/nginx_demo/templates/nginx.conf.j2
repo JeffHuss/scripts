@@ -1,0 +1,45 @@
+# nginx.conf template for our Docker container
+user  nginx;
+worker_processes  {{ nginx_worker_processes | default('auto') }};
+
+error_log  /var/log/nginx/error.log {{ nginx_error_log_level | default('warn') }};
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  {{ nginx_worker_connections | default(1024) }};
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    keepalive_timeout  65;
+    
+    server {
+        listen       {{ nginx_port | default(80) }};
+        server_name  {{ nginx_server_name | default('localhost') }};
+        
+        # Root directory for our web content
+        root   /usr/share/nginx/html;
+        
+        location / {
+            index  index.html index.htm;
+        }
+        
+        # Custom error pages
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+        
+        # Additional custom configuration
+        {{ nginx_extra_config | default('') }}
+    }
+}

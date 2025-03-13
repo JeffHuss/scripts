@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansible-Deployed Nginx</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        #time-display {
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 4px;
+            text-align: center;
+        }
+        #toggle-info {
+            padding: 10px 15px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #server-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eaf2f8;
+            border-left: 4px solid #3498db;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Your Ansible-Deployed Nginx Server</h1>
+        
+        <p>This page is being served by an Nginx container that was deployed using Ansible.</p>
+        
+        <div id="time-display">Current time will appear here</div>
+        
+        <button id="toggle-info">Show Server Info</button>
+        
+        <div id="server-info">
+            <h3>Server Information:</h3>
+            <p><strong>Container name:</strong> {{ container_name }}</p>
+            <p><strong>Nginx version:</strong> <span id="nginx-version">Loading...</span></p>
+            <p><strong>Deployment date:</strong> <span id="deploy-date">Loading...</span></p>
+        </div>
+    </div>
+
+    <script src="site.js"></script>
+</body>
+</html>

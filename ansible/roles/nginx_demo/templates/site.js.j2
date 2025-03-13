@@ -1,0 +1,53 @@
+// Update the current time display
+function updateTime() {
+    const timeDisplay = document.getElementById('time-display');
+    const now = new Date();
+    timeDisplay.textContent = 'Current time: ' + now.toLocaleString();
+}
+
+// Function to detect Nginx version from HTTP headers
+async function detectNginxVersion() {
+    try {
+        const response = await fetch(window.location.href);
+        const server = response.headers.get('Server');
+        
+        const versionElement = document.getElementById('nginx-version');
+        
+        if (server && server.includes('nginx')) {
+            versionElement.textContent = server;
+        } else {
+            versionElement.textContent = 'Unable to detect version';
+        }
+    } catch (error) {
+        document.getElementById('nginx-version').textContent = 'Error detecting version';
+        console.error('Error detecting Nginx version:', error);
+    }
+}
+
+// Initialize the page when loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Set initial time and update every second
+    updateTime();
+    setInterval(updateTime, 1000);
+    
+    // Set deployment date (this would be replaced by Ansible during deployment)
+    const deployDate = document.getElementById('deploy-date');
+    deployDate.textContent = '{{ ansible_date_time.iso8601 }}';
+    
+    // Detect Nginx version
+    detectNginxVersion();
+    
+    // Toggle server info section
+    const toggleButton = document.getElementById('toggle-info');
+    const serverInfo = document.getElementById('server-info');
+    
+    toggleButton.addEventListener('click', function() {
+        if (serverInfo.style.display === 'block') {
+            serverInfo.style.display = 'none';
+            toggleButton.textContent = 'Show Server Info';
+        } else {
+            serverInfo.style.display = 'block';
+            toggleButton.textContent = 'Hide Server Info';
+        }
+    });
+});

@@ -1,0 +1,42 @@
+---
+# tasks file for roles/nginx_demo
+
+- name: Create directory structure for Nginx container
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "/opt/nginx_demo"
+    - "/opt/nginx_demo/html"
+    - "/opt/nginx_demo/config"
+
+- name: Copy Nginx configuration
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: "/opt/nginx_demo/config/nginx.conf"
+    mode: '0644'
+
+- name: Copy index.html template
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: "/opt/nginx_demo/html/index.html"
+    mode: '0644'
+
+- name: Copy site.js template
+  ansible.builtin.template:
+    src: site.js.j2
+    dest: "/opt/nginx_demo/html/site.js"
+    mode: '0644'
+
+- name: Create and start Nginx container
+  community.docker.docker_container:
+    name: "{{ container_name }}"
+    image: "{{ container_image }}"
+    state: "{{ container_state }}"
+    restart_policy: unless-stopped
+    ports:
+      - "{{ host_port }}:{{ container_port }}"
+    volumes:
+      - "/opt/nginx_demo/html:/usr/share/nginx/html:ro"
+      - "/opt/nginx_demo/config/nginx.conf:/etc/nginx/nginx.conf:ro"

@@ -1,0 +1,8 @@
+---
+# nginx_container.yml - A playbook to deploy the Nginx container
+- name: Deploy Nginx container
+  hosts: docker_vm_hosts  # This targets the group in your inventory
+  become: yes  # This is needed if the tasks require sudo
+
+  roles:
+    - nginx_demo  # This includes your role

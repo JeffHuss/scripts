@@ -1,0 +1,18 @@
+---
+# Container settings
+container_name: "nginx-web"
+container_image: "nginx:latest"
+container_state: "started"
+host_port: 80
+container_port: 80
+
+# Nginx configuration
+nginx_worker_processes: "auto"
+nginx_worker_connections: 1024
+nginx_error_log_level: "warn"
+nginx_port: 80
+nginx_server_name: "localhost"
+nginx_extra_config: ""
+
+# Content
+web_content_dest: "/usr/share/nginx/html"
