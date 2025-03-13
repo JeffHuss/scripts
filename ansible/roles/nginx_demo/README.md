@@ -1,38 +1,84 @@
-Role Name
-=========
+# Nginx Demo Role
 
-A brief description of the role goes here.
+An Ansible role that deploys a customized Nginx web server as a Docker container.
 
-Requirements
-------------
+## Description
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role sets up a Docker container running Nginx with a custom configuration and a dynamic web page. It demonstrates how to use Ansible templates, variables, and Docker configuration to create a reusable deployment pattern.
 
-Role Variables
---------------
+## Requirements
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- Docker installed on the target host
+- Ansible 2.9+
+- The `community.docker` collection (`ansible-galaxy collection install community.docker`)
 
-Dependencies
-------------
+## Role Variables
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+The following variables are defined in `defaults/main.yml` and can be overridden:
 
-Example Playbook
-----------------
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `container_name` | nginx-web | Name for the Docker container |
+| `container_image` | nginx:latest | Docker image to use |
+| `container_state` | started | Desired state of container (started, stopped, etc.) |
+| `host_port` | 80 | Host port to map to container |
+| `container_port` | 80 | Container port to expose |
+| `nginx_worker_processes` | auto | Number of Nginx worker processes |
+| `nginx_worker_connections` | 1024 | Maximum connections per worker |
+| `nginx_error_log_level` | warn | Nginx error log level |
+| `nginx_port` | 80 | Port Nginx listens on inside container |
+| `nginx_server_name` | localhost | Server name for Nginx |
+| `nginx_extra_config` | "" | Additional Nginx configuration |
+| `web_content_dest` | /usr/share/nginx/html | Container path for web content |
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+## Dependencies
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+None. The role assumes Docker is already installed on the target host.
 
-License
--------
+## Example Playbook
 
-BSD
+```yaml
+---
+- name: Deploy Nginx container
+  hosts: docker_vm_hosts
+  become: yes
+  
+  roles:
+    - nginx_demo
+```
 
-Author Information
-------------------
+## Directory Structure
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+```
+nginx_demo/
+├── defaults/
+│   └── main.yml          # Default variables
+├── templates/
+│   ├── index.html.j2     # Template for the main web page
+│   ├── site.js.j2        # JavaScript for dynamic page features
+│   └── nginx.conf.j2     # Nginx configuration template
+└── tasks/
+    └── main.yml          # Tasks to deploy the container
+```
+
+## Role Tasks
+
+1. Creates directories for web content and Nginx configuration
+2. Processes templates and copies them to the host
+3. Launches a Docker container with Nginx using the provided configuration
+
+## Web Interface
+
+The deployed web server provides:
+- A responsive web page with dynamic content
+- Current time display updated by JavaScript
+- Server information including container name and Nginx version
+- Interactive elements using JavaScript
+
+## License
+
+MIT
+
+## Author Information
+
+Created for Ansible role learning purposes.
