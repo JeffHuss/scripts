@@ -1,0 +1,12 @@
+---
+- name: start a container running nginx
+  hosts: docker_vm_hosts
+  tasks:
+    - name: start the container
+      docker_container:
+        name: testing_nginx
+        image: nginx
+        ports: 80:80
+        state: started
+        recreate: true
+        detach: true

@@ -1,0 +1,9 @@
+---
+- name: pull an image
+  hosts: docker_vm_hosts
+  tasks:
+    - name: pull the nginx image
+      docker_image:
+        name: nginx
+        source: pull
+        tag: latest
