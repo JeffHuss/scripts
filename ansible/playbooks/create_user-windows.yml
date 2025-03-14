@@ -1,0 +1,22 @@
+# This playbook creates a new windows user account in the users group
+# prints the returned values and then removes the user account
+# This isn't supposed to be a practical playbook - it's just for testing purposes
+---
+- name: Create a user
+  hosts: windows
+  tasks:
+    - name: Create a user
+      ansible.builtin.win_user:
+        name: "test_account"
+        password: "Password123!"
+        groups: "Users"
+        state: present
+        password_never_expires: yes
+      register: user_creation_result
+    - name: Print the return values
+      debug:
+        var: user_creation_result
+    - name: Remove the user
+      ansible.builtin.win_user:
+        name: "test_account"
+        state: absent
