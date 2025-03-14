@@ -2,6 +2,8 @@
 
 **Welcome to my humble script repository.**
 
+> **DISCLAIMER**: This repository is provided purely for educational and personal learning purposes. The scripts and code contained within are not intended to be run in production environments. I make no guarantees about the security, reliability, or functionality of any included code. You should not execute any scripts from this repository unless you fully understand what they do and have reviewed them line by line. Use at your own risk.
+
 #### Directory structure:
 
 - `cloud-init/`
@@ -9,6 +11,9 @@
 
 - `legacy_scripts/`
   - An incomplete collection of scripts I've used while working as a support engineer and tech writer ("legacy_scripts") folder.
+
+- `powershell/`
+  - PowerShell scripts synchronized from my Windows VM environment. This contains practice and/or test scripts.
 
 - `python_labs/`
   - Collection of various Python scripts I've written while working through online coursework. Much of it is from [CS50's Introduction to Programming with Python](https://cs50.harvard.edu/python/2022/)
@@ -33,6 +38,11 @@
 - `./templates/setup.sh`
   - Run this to create a venv in the project directory.
   - If requirements.txt contains any dependencies, it will install them with `pip`
+
+- `./powershell/sync.sh`
+  - A utility script that synchronizes PowerShell scripts from a Windows VM to this repository.
+  - Uses SCP to securely copy files from the Windows environment to the local Linux host.
+  - Simplifies cross-platform development by keeping PowerShell scripts under version control alongside other scripts.
 
 **Note**: I use a quick bash function to clean up Python directories once I'm done working. That script looks like this:
 
