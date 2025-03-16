@@ -69,7 +69,7 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# Ignore lock files (optional, but often included)
+# Ignore lock files
 .terraform.lock.hcl
 
 # Ignore generated plan files
