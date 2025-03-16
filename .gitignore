@@ -43,3 +43,41 @@ ansible/roles/geerlingguy.*
 # Ignore credentials and tokens
 galaxy_token
 **/galaxy_token
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude terraform.tfvars files that might contain sensitive data
+*.tfvars
+*.tfvars.json
+
+# Ignore override files as they're usually used for local development
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Ignore lock files (optional, but often included)
+.terraform.lock.hcl
+
+# Ignore generated plan files
+tfplan
+*.tfplan
+
+# If you use .tfplan.json output, ignore those too
+*.tfplan.json
+
+# Ignore any local backups
+*.backup
