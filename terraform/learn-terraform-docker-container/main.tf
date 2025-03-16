@@ -20,8 +20,8 @@ resource "docker_container" "nginx" {
   image = docker_image.nginx.image_id
   name  = "tutorial"
   ports {
-    internal = var.docker_ports[0].internal
-    external = var.docker_ports[0].external
-    protocol = var.docker_ports[0].protocol
+    internal = var.docker_ports["http"].internal
+    external = var.docker_ports["http"].external
+    protocol = var.docker_ports["http"].protocol
   }
 }
